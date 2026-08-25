@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-
+import streamlit as st
+import sys
+from pathlib import Path
+
+# Add src to path
+sys.path.append(str(Path(__file__).parent))
+from src.data.google_sheets import authenticate_student
+
+st.set_page_config(
+    page_title="Portal do Aluno",
+    page_icon="🏋️",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Inicializa variavel de sessao para controle de login
+if "aluno_logado" not in st.session_state:
+    st.session_state.aluno_logado = None
+
+# --- TELA DE LOGIN ---
+if st.session_state.aluno_logado is None:
+    st.markdown("<h1 style='text-align: center;'>Portal do Aluno</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center;'>Acesse seus treinos e avaliações.</p>", unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        with st.form("login_form"):
+            telefone = st.text_input("Seu WhatsApp (apenas números, com DDD)", placeholder="Ex: 11999998888")
+            submit = st.form_submit_button("Entrar", use_container_width=True)
+            
+            if submit:
+                if not telefone:
+                    st.warning("Por favor, digite seu telefone.")
+                else:
+                    with st.spinner("Verificando..."):
+                        dados_aluno = authenticate_student(telefone)
+                        if dados_aluno:
+                            st.session_state.aluno_logado = dados_aluno
+                            st.rerun()
+                        else:
+                            st.error("Aluno não encontrado ou inativo. Verifique o número e tente novamente.")
+
+# --- AREA LOGADA ---
+else:
+    # Definindo as paginas disponiveis para o aluno logado
+    pages = {
+        "Meu Painel": [
+            st.Page("src/pages/01_Minhas_Avaliacoes.py", title="Evolução e Avaliações", icon="📈"),
+            st.Page("src/pages/02_Meus_Treinos.py", title="Meus Treinos", icon="🏋️"),
+        ]
+    }
+    
+    pg = st.navigation(pages)
+    
+    # Sidebar customizada para o aluno
+    with st.sidebar:
+        st.write(f"👋 Olá, **{st.session_state.aluno_logado['Nome']}**")
+        st.write("---")
+        if st.button("Sair da Conta"):
+            st.session_state.aluno_logado = None
+            st.rerun()
+            
+    # Executa a pagina selecionada
+    pg.run()

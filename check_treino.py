@@ -1,0 +1,1 @@
+import pandas as pd; import urllib.parse; url = f'https://docs.google.com/spreadsheets/d/1I74tC5idHkCxTxYUkMdM2SkaiySwvbjmljKUgctmnWE/gviz/tq?tqx=out:csv&sheet=' + urllib.parse.quote('Treino_phyton'); df = pd.read_csv(url); print(df.head(10)); print(df.columns.tolist())
