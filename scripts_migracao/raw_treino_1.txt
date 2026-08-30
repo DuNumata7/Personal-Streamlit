@@ -1,0 +1,15 @@
+Row  0: Atleta: Rafaela Barros |  |  | Sessão 1 - Costas + ombro |  |  |  |  | Sessão 3 - Gluteo e posterior da coxa |  |  | 
+Row  1:  |  |  | Exercício | Carga | Reps | Séries |  | Exercício | Carga | Reps | Séries
+Row  2:  |  |  | Puxada aberta | 7 | 8 | 4 |  | Levamento terra | 26 | 10 | 4
+Row  3:  |  |  | Remanda baixa com triângulo | 8 | 10 | 4 |  | Elevação pélvica | 15 | 10 | 4
+Row  4:  |  |  | Remada curvada com barra | 20 | 10 | 4 |  | Mesa flexora | 7 | 10 | 4
+Row  5: Início: | 2026-07-13 00:00:00 |  | Elevação lateral | 4 | 10 | 4 |  | Afundo | 10 | 10 | 4
+Row  6: Finalização: | 2026-07-27 00:00:00 |  |  |  |  |  |  |  |  |  | 
+Row  7: Musculação: | 4x/sem |  |  |  |  |  |  |  |  |  | 
+Row  8:  |  |  |  |  |  |  |  |  |  |  | 
+Row  9:  |  |  | Sessão 2 - Tetas e ombro |  |  |  |  | Sessão 4 - Quads |  |  | 
+Row 10:  |  |  | Exercício | Carga | Reps | Séries |  | Exercício | Carga | Reps | Séries
+Row 11:  |  |  | Desenvolvimento com halteres | 12 | 10 | 4 |  | Agachamento | 36 | 10 | 4
+Row 12:  |  |  | Supino vertical | 6 | 10 | 4 |  | Leg45 | 160 | 10 | 4
+Row 13:  |  |  | Supino inclinado com halteres | 12 | 10 | 4 |  | leg 180 - Unilateral | 60 | 12 | 4
+Row 14:  |  |  | Tríceps francês na polia | 3 | 10 | 4 |  |  |  |  | 

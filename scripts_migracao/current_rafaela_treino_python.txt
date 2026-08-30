@@ -1,0 +1,31 @@
+Row  1: Treino | Início | Término | Sessão | Exercício | Carga | Reps | Séries
+Row  2: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 1 - Costas + ombro | Puxada aberta | 8 | 8 | 4
+Row  3: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 1 - Costas + ombro | Remada baixa com triângulo | 9 | 10 | 4
+Row  4: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 1 - Costas + ombro | Remada curvada com barra | 25 | 10 | 4
+Row  5: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 1 - Costas + ombro | Elevação lateral | 4 | 13 | 4
+Row  6: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 2 - Tetas e ombro | Desenvolvimento com halteres | 14 | 10 | 4
+Row  7: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 2 - Tetas e ombro | Supino vertical | 7 | 10 | 4
+Row  8: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 2 - Tetas e ombro | Supino inclinado com halteres | 16 | 10 | 4
+Row  9: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 2 - Tetas e ombro | Tríceps francês na polia | 4 | 10 | 4
+Row 10: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 3 - Glúteo e posterior da coxa | Levantamento terra | 20 | 10 | 4
+Row 11: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 3 - Glúteo e posterior da coxa | Elevação pélvica | 20 | 10 | 4
+Row 12: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 3 - Glúteo e posterior da coxa | Mesa flexora | 7 | 13 | 4
+Row 13: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 3 - Glúteo e posterior da coxa | Afundo | 14 | 10 | 4
+Row 14: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 4 - Quads | Agachamento | 20 | 10 | 4
+Row 15: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 4 - Quads | Leg 45 | 90 | 10 | 4
+Row 16: 1.1 | 03/08/2026 | 17/08/2026 | Sessão 4 - Quads | Leg 180 - Unilateral | 35 | 12 | 4
+Row 17: 1 | 13/07/2026 | 27/07/2026 | Sessão 1 - Costas + ombro | Puxada aberta | 7 | 8 | 4
+Row 18: 1 | 13/07/2026 | 27/07/2026 | Sessão 1 - Costas + ombro | Remada baixa com triângulo | 8 | 10 | 4
+Row 19: 1 | 13/07/2026 | 27/07/2026 | Sessão 1 - Costas + ombro | Remada curvada com barra | 20 | 10 | 4
+Row 20: 1 | 13/07/2026 | 27/07/2026 | Sessão 1 - Costas + ombro | Elevação lateral | 4 | 10 | 4
+Row 21: 1 | 13/07/2026 | 27/07/2026 | Sessão 2 - Tetas e ombro | Desenvolvimento com halteres | 12 | 10 | 4
+Row 22: 1 | 13/07/2026 | 27/07/2026 | Sessão 2 - Tetas e ombro | Supino vertical | 6 | 10 | 4
+Row 23: 1 | 13/07/2026 | 27/07/2026 | Sessão 2 - Tetas e ombro | Supino inclinado com halteres | 12 | 10 | 4
+Row 24: 1 | 13/07/2026 | 27/07/2026 | Sessão 2 - Tetas e ombro | Tríceps francês na polia | 3 | 10 | 4
+Row 25: 1 | 13/07/2026 | 27/07/2026 | Sessão 3 - Glúteo e posterior da coxa | Levantamento terra | 26 | 10 | 4
+Row 26: 1 | 13/07/2026 | 27/07/2026 | Sessão 3 - Glúteo e posterior da coxa | Elevação pélvica | 15 | 10 | 4
+Row 27: 1 | 13/07/2026 | 27/07/2026 | Sessão 3 - Glúteo e posterior da coxa | Mesa flexora | 7 | 10 | 4
+Row 28: 1 | 13/07/2026 | 27/07/2026 | Sessão 3 - Glúteo e posterior da coxa | Afundo | 10 | 10 | 4
+Row 29: 1 | 13/07/2026 | 27/07/2026 | Sessão 4 - Quads | Agachamento | 36 | 10 | 4
+Row 30: 1 | 13/07/2026 | 27/07/2026 | Sessão 4 - Quads | Leg 45 | 160 | 10 | 4
+Row 31: 1 | 13/07/2026 | 27/07/2026 | Sessão 4 - Quads | Leg 180 - Unilateral | 60 | 12 | 4
