@@ -6,7 +6,7 @@ from src.data.google_sheets import extract_sheet_id, get_student_workouts, save_
 aluno = st.session_state.aluno_logado
 
 st.title("🏋️ Meus Treinos")
-st.markdown("Confira seu treino e **edite as cargas ou repetições** que você realizou hoje.")
+st.markdown("Confira seu plano de treinamento e **edite as cargas ou repetições** que você realizou hoje.")
 
 link_planilha = aluno.get("Planilha_Individual", "")
 sheet_id = extract_sheet_id(link_planilha)
@@ -20,7 +20,8 @@ else:
     if df_treino.empty:
         st.info("Nenhum treino registrado ainda na aba Treino_Python.")
     else:
-        # Detectando colunas
+        # Detectando colunas de forma segura
+        col_treino = next((c for c in df_treino.columns if c.upper().strip() == "TREINO"), None)
         col_sessao = next((c for c in df_treino.columns if "SESS" in c.upper()), None)
         col_exercicio = next((c for c in df_treino.columns if "EXERC" in c.upper()), None)
         col_carga = next((c for c in df_treino.columns if "CARGA" in c.upper()), None)
@@ -29,16 +30,24 @@ else:
         col_inicio = next((c for c in df_treino.columns if "IN" in c.upper() and "CIO" in c.upper()), None)
         col_termino = next((c for c in df_treino.columns if "T" in c.upper() and "RMINO" in c.upper()), None)
         
-        if col_inicio and col_termino:
+        # Filtro de Ciclo de Treino (Ex: Treino 1.1 vs Treino 1)
+        if col_treino and df_treino[col_treino].nunique() > 1:
+            treinos_unicos = df_treino[col_treino].dropna().unique().tolist()
+            treino_escolhido = st.selectbox("📅 Selecione a Ficha de Treino:", treinos_unicos, index=0)
+            df_filtrado = df_treino[df_treino[col_treino] == treino_escolhido].copy()
+        else:
+            df_filtrado = df_treino.copy()
+            
+        if col_inicio and col_termino and not df_filtrado.empty:
             try:
-                dt_inicio = df_treino[col_inicio].iloc[0]
-                dt_fim = df_treino[col_termino].iloc[0]
-                st.success(f"**Período do Treino Atual:** {dt_inicio} a {dt_fim}")
+                dt_inicio = df_filtrado[col_inicio].iloc[0]
+                dt_fim = df_filtrado[col_termino].iloc[0]
+                st.success(f"**Período do Treino:** {dt_inicio} a {dt_fim}")
             except:
                 pass
                 
         if col_sessao and col_exercicio:
-            sessoes = df_treino[col_sessao].dropna().unique().tolist()
+            sessoes = df_filtrado[col_sessao].dropna().unique().tolist()
             
             if sessoes:
                 tabs = st.tabs([str(s) for s in sessoes])
@@ -47,7 +56,7 @@ else:
                     with tabs[idx]:
                         st.write("Dê dois cliques nas células para editar sua carga ou repetições de hoje:")
                         
-                        df_sessao = df_treino[df_treino[col_sessao] == sessao]
+                        df_sessao = df_filtrado[df_filtrado[col_sessao] == sessao]
                         
                         # Preparar tabela para o editor
                         cols_mostrar = [col_exercicio]
@@ -73,14 +82,12 @@ else:
                         )
                         
                         # Botao de salvar
-                        if st.button(f"Salvar Edições da {sessao}", key=f"btn_{idx}"):
-                            # Compara o editado com o original para descobrir o que mudou
+                        if st.button(f"Salvar Edições da {sessao}", key=f"btn_{sessao}_{idx}"):
                             mudancas = []
                             for i in range(len(editado_df)):
                                 val_editado = editado_df.iloc[i].to_dict()
                                 val_original = df_mostrar.iloc[i].to_dict()
                                 
-                                # Se alguma coisa diferente de exercicio foi alterada
                                 if val_editado != val_original:
                                     mudancas.append({
                                         "Sessão": sessao,
@@ -95,10 +102,10 @@ else:
                                     sucesso = save_workout_feedback(sheet_id, mudancas)
                                     if sucesso:
                                         st.success("Alterações enviadas com sucesso! Seu treinador foi notificado.")
-                                        get_student_workouts.clear() # Limpa o cache
+                                        get_student_workouts.clear()
                                     else:
                                         st.error("Erro ao enviar alterações.")
                             else:
                                 st.info("Nenhuma alteração detectada para salvar.")
             else:
-                st.write("Nenhuma sessao de treino definida.")
+                st.write("Nenhuma sessão de treino definida.")
