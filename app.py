@@ -8,11 +8,23 @@ sys.path.append(str(Path(__file__).parent))
 from src.data.google_sheets import authenticate_student
 
 st.set_page_config(
-    page_title="Portal do Aluno",
-    page_icon="🏋️",
+    page_title="NMT | Portal do Aluno",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Load Custom CSS
+import os
+def load_css():
+    css_path = Path(__file__).parent / "src" / "assets" / "style.css"
+    try:
+        with open(css_path) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    except Exception as e:
+        st.error(f"Erro ao carregar CSS: {e}")
+
+load_css()
 
 # Inicializa variavel de sessao para controle de login
 if "aluno_logado" not in st.session_state:
@@ -20,8 +32,8 @@ if "aluno_logado" not in st.session_state:
 
 # --- TELA DE LOGIN ---
 if st.session_state.aluno_logado is None:
-    st.markdown("<h1 style='text-align: center;'>Portal do Aluno</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center;'>Acesse seus treinos e avaliações.</p>", unsafe_allow_html=True)
+    st.markdown("<div class='nmt-logo-text'>NMT</div>", unsafe_allow_html=True)
+    st.markdown("<div class='nmt-subtitle'>Portal do Aluno • Treinamento de Alta Performance</div>", unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:

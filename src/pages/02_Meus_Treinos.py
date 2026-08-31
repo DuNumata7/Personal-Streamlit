@@ -81,31 +81,35 @@ else:
                             disabled=["Exercício"] # Impede que o aluno mude o nome do exercicio
                         )
                         
-                        # Botao de salvar
-                        if st.button(f"Salvar Edições da {sessao}", key=f"btn_{sessao}_{idx}"):
-                            mudancas = []
-                            for i in range(len(editado_df)):
-                                val_editado = editado_df.iloc[i].to_dict()
-                                val_original = df_mostrar.iloc[i].to_dict()
-                                
-                                if val_editado != val_original:
-                                    mudancas.append({
-                                        "Sessão": sessao,
-                                        "Exercício": val_editado.get("Exercício", ""),
-                                        "Carga": val_editado.get("Carga", ""),
-                                        "Reps": val_editado.get("Reps", ""),
-                                        "Séries": val_editado.get("Séries", "")
-                                    })
+                        # Botao de salvar em um container para destaque
+                        st.markdown("<br>", unsafe_allow_html=True)
+                        with st.container(border=True):
+                            st.markdown("#### Salvar Progresso")
+                            st.write("Confirme as cargas e repetições ajustadas hoje.")
+                            if st.button(f"Salvar Edições da {sessao}", key=f"btn_{sessao}_{idx}"):
+                                mudancas = []
+                                for i in range(len(editado_df)):
+                                    val_editado = editado_df.iloc[i].to_dict()
+                                    val_original = df_mostrar.iloc[i].to_dict()
                                     
-                            if mudancas:
-                                with st.spinner("Enviando para o treinador..."):
-                                    sucesso = save_workout_feedback(sheet_id, mudancas)
-                                    if sucesso:
-                                        st.success("Alterações enviadas com sucesso! Seu treinador foi notificado.")
-                                        get_student_workouts.clear()
-                                    else:
-                                        st.error("Erro ao enviar alterações.")
-                            else:
-                                st.info("Nenhuma alteração detectada para salvar.")
+                                    if val_editado != val_original:
+                                        mudancas.append({
+                                            "Sessão": sessao,
+                                            "Exercício": val_editado.get("Exercício", ""),
+                                            "Carga": val_editado.get("Carga", ""),
+                                            "Reps": val_editado.get("Reps", ""),
+                                            "Séries": val_editado.get("Séries", "")
+                                        })
+                                        
+                                if mudancas:
+                                    with st.spinner("Enviando para o treinador..."):
+                                        sucesso = save_workout_feedback(sheet_id, mudancas)
+                                        if sucesso:
+                                            st.success("⚡ Alterações enviadas com sucesso! Seu treinador foi notificado.")
+                                            get_student_workouts.clear()
+                                        else:
+                                            st.error("Erro ao enviar alterações.")
+                                else:
+                                    st.info("Nenhuma alteração detectada para salvar.")
             else:
                 st.write("Nenhuma sessão de treino definida.")

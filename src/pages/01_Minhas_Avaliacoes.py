@@ -51,21 +51,32 @@ else:
             # Layout em 2 colunas para graficos
             g1, g2 = st.columns(2)
             
+            # Configuracoes padrao dos graficos NMT
+            def style_nmt_chart(fig):
+                fig.update_traces(line_color="#00B4D8", marker=dict(size=8, color="#F8F9FA", line=dict(width=2, color="#00B4D8")))
+                fig.update_layout(
+                    template="plotly_dark",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    font=dict(color="#ADB5BD")
+                )
+                return fig
+
             with g1:
                 if peso_col:
                     fig_peso = px.line(df_av, x="DATA", y=peso_col[0], title="Peso Corporal (kg)", markers=True)
-                    st.plotly_chart(fig_peso, use_container_width=True)
+                    st.plotly_chart(style_nmt_chart(fig_peso), use_container_width=True)
                 if massa_magra_col:
                     fig_mm = px.line(df_av, x="DATA", y=massa_magra_col[0], title="Massa Livre de Gordura (%)", markers=True)
-                    st.plotly_chart(fig_mm, use_container_width=True)
+                    st.plotly_chart(style_nmt_chart(fig_mm), use_container_width=True)
                     
             with g2:
                 if bf_col:
                     fig_bf = px.line(df_av, x="DATA", y=bf_col[0], title="Gordura Corporal (%)", markers=True)
-                    st.plotly_chart(fig_bf, use_container_width=True)
+                    st.plotly_chart(style_nmt_chart(fig_bf), use_container_width=True)
                 if cintura_col:
                     fig_cintura = px.line(df_av, x="DATA", y=cintura_col[0], title="Circunferencia da Cintura (cm)", markers=True)
-                    st.plotly_chart(fig_cintura, use_container_width=True)
+                    st.plotly_chart(style_nmt_chart(fig_cintura), use_container_width=True)
                 
         st.divider()
         st.subheader("Historico Completo de Avaliacoes")

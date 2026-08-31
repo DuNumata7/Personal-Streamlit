@@ -1,0 +1,95 @@
+/* Custom Streamlit Styles for NMT Brand */
+
+/* Hide default Streamlit elements for a cleaner app look */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+/* Custom typography and padding for headers */
+h1 {
+    color: #F8F9FA !important;
+    font-weight: 800 !important;
+    letter-spacing: -1px;
+}
+
+h2, h3 {
+    color: #ADB5BD !important;
+    font-weight: 500 !important;
+}
+
+/* Primary Button Styling */
+div.stButton > button:first-child {
+    background-color: #00B4D8 !important;
+    color: #212529 !important;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    padding: 0.6rem 1.2rem;
+}
+
+div.stButton > button:first-child:hover {
+    background-color: #F8F9FA !important;
+    color: #00B4D8 !important;
+    box-shadow: 0 0 15px rgba(0, 180, 216, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Metric Cards */
+div[data-testid="metric-container"] {
+    background-color: #2b3035;
+    border: 1px solid rgba(173, 181, 189, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+div[data-testid="metric-container"] label {
+    color: #ADB5BD !important;
+    font-size: 1.1rem !important;
+}
+div[data-testid="metric-container"] div {
+    color: #00B4D8 !important;
+    font-weight: bold !important;
+}
+
+/* Tabs Styling */
+div[data-baseweb="tab-list"] {
+    gap: 8px;
+}
+div[data-baseweb="tab"] {
+    background-color: #2b3035 !important;
+    border-radius: 6px !important;
+    padding: 10px 24px !important;
+    border: 1px solid transparent !important;
+    color: #ADB5BD !important;
+}
+div[data-baseweb="tab"][aria-selected="true"] {
+    background-color: #00B4D8 !important;
+    color: #212529 !important;
+    font-weight: bold !important;
+}
+
+/* Dataframe/Editor Headers */
+th {
+    background-color: #2b3035 !important;
+    color: #00B4D8 !important;
+}
+
+/* Logo Stylized Text Component */
+.nmt-logo-text {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #00B4D8;
+    text-align: center;
+    letter-spacing: -3px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    text-shadow: 0 0 20px rgba(0, 180, 216, 0.3);
+}
+.nmt-subtitle {
+    text-align: center;
+    color: #ADB5BD;
+    font-size: 1.2rem;
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
