@@ -144,6 +144,7 @@ else:
             df_transposto.columns = datas_formatadas
             
             # Exibe a tabela ESTATICA (embutida e sem rolagem interna)
-            st.table(df_transposto)
+            # .astype(str) previne o erro PyArrow (ArrowInvalid) de tipos mistos
+            st.table(df_transposto.astype(str))
         else:
-            st.table(df_av.T)
+            st.table(df_av.T.astype(str))

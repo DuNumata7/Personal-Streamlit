@@ -76,7 +76,7 @@ else:
                         # Data Editor interativo
                         editado_df = st.data_editor(
                             df_mostrar,
-                            use_container_width=True,
+                            width="stretch",
                             hide_index=True,
                             disabled=["Exercício"] # Impede que o aluno mude o nome do exercicio
                         )
