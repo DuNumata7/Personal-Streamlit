@@ -1,9 +1,8 @@
 /* Custom Streamlit Styles for NMT Brand - Mobile Optimized */
 
 /* Hide default Streamlit elements for a cleaner app look */
-#MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-[data-testid="stToolbar"] {visibility: hidden;} /* Esconde botões do Streamlit Cloud */
+.stAppDeployButton {display: none !important;} /* Esconde apenas o botão de deploy */
 [data-testid="stElementToolbar"] {display: none !important;} /* Esconde download/search das tabelas */
 
 /* Custom typography */

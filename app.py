@@ -11,7 +11,7 @@ st.set_page_config(
     page_title="NMT | Portal do Aluno",
     page_icon="⚡",
     layout="centered",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="auto"
 )
 
 # Load Custom CSS
