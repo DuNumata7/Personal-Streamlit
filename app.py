@@ -10,8 +10,8 @@ from src.data.google_sheets import authenticate_student
 st.set_page_config(
     page_title="NMT | Portal do Aluno",
     page_icon="⚡",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
 # Load Custom CSS
@@ -35,8 +35,7 @@ if st.session_state.aluno_logado is None:
     st.markdown("<div class='nmt-logo-text'>NMT</div>", unsafe_allow_html=True)
     st.markdown("<div class='nmt-subtitle'>Portal do Aluno • Treinamento de Alta Performance</div>", unsafe_allow_html=True)
     
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
+    with st.container():
         with st.form("login_form"):
             telefone = st.text_input("Seu WhatsApp (apenas números, com DDD)", placeholder="Ex: 11999998888")
             submit = st.form_submit_button("Entrar", use_container_width=True)

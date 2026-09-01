@@ -1,23 +1,22 @@
-/* Custom Streamlit Styles for NMT Brand */
+/* Custom Streamlit Styles for NMT Brand - Mobile Optimized */
 
 /* Hide default Streamlit elements for a cleaner app look */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 
-/* Custom typography and padding for headers */
+/* Custom typography */
 h1 {
     color: #F8F9FA !important;
     font-weight: 800 !important;
     letter-spacing: -1px;
 }
-
 h2, h3 {
     color: #ADB5BD !important;
     font-weight: 500 !important;
 }
 
-/* Primary Button Styling */
+/* Primary Button Styling - Mobile First (Larger touch targets) */
 div.stButton > button:first-child {
     background-color: #00B4D8 !important;
     color: #212529 !important;
@@ -26,8 +25,9 @@ div.stButton > button:first-child {
     font-weight: bold;
     transition: all 0.3s ease;
     padding: 0.6rem 1.2rem;
+    min-height: 50px; /* Área de toque confortável para polegares */
+    width: 100%; /* Ocupa a largura toda no mobile */
 }
-
 div.stButton > button:first-child:hover {
     background-color: #F8F9FA !important;
     color: #00B4D8 !important;
@@ -39,29 +39,34 @@ div.stButton > button:first-child:hover {
 div[data-testid="metric-container"] {
     background-color: #2b3035;
     border: 1px solid rgba(173, 181, 189, 0.2);
-    padding: 20px;
+    padding: 15px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
 }
 div[data-testid="metric-container"] label {
     color: #ADB5BD !important;
-    font-size: 1.1rem !important;
+    font-size: 1rem !important;
 }
 div[data-testid="metric-container"] div {
     color: #00B4D8 !important;
     font-weight: bold !important;
+    font-size: 1.6rem !important;
 }
 
-/* Tabs Styling */
+/* Tabs Styling - Scrollable for small screens */
 div[data-baseweb="tab-list"] {
     gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 5px;
 }
 div[data-baseweb="tab"] {
     background-color: #2b3035 !important;
     border-radius: 6px !important;
-    padding: 10px 24px !important;
+    padding: 12px 20px !important;
     border: 1px solid transparent !important;
     color: #ADB5BD !important;
+    white-space: nowrap;
 }
 div[data-baseweb="tab"][aria-selected="true"] {
     background-color: #00B4D8 !important;
@@ -77,11 +82,11 @@ th {
 
 /* Logo Stylized Text Component */
 .nmt-logo-text {
-    font-size: 4rem;
+    font-size: 3.5rem;
     font-weight: 900;
     color: #00B4D8;
     text-align: center;
-    letter-spacing: -3px;
+    letter-spacing: -2px;
     margin-bottom: 0px;
     padding-bottom: 0px;
     text-shadow: 0 0 20px rgba(0, 180, 216, 0.3);
@@ -89,7 +94,25 @@ th {
 .nmt-subtitle {
     text-align: center;
     color: #ADB5BD;
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-top: 0px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+}
+
+/* 📱 REGRAS ESPECÍFICAS PARA SMARTPHONES */
+@media (max-width: 768px) {
+    /* Reduz as margens brancas gigantes do Streamlit para ganhar espaço de tela útil */
+    .block-container {
+        padding-top: 2rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    /* Redimensiona a logo */
+    .nmt-logo-text { font-size: 2.5rem; }
+    .nmt-subtitle { font-size: 0.85rem; margin-bottom: 15px; }
+    
+    /* Ajusta tamanho dos textos nos cards */
+    div[data-testid="metric-container"] div { font-size: 1.3rem !important; }
 }

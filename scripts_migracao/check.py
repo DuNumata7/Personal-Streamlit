@@ -1,1 +1,0 @@
-import pandas as pd; import urllib.parse; url = f'https://docs.google.com/spreadsheets/d/1I74tC5idHkCxTxYUkMdM2SkaiySwvbjmljKUgctmnWE/gviz/tq?tqx=out:csv&sheet=' + urllib.parse.quote('TREINOS TRANSPOSTOS'); print(pd.read_csv(url).head(10))
