@@ -3,7 +3,8 @@
 /* Hide default Streamlit elements for a cleaner app look */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
+[data-testid="stToolbar"] {visibility: hidden;} /* Esconde botões do Streamlit Cloud */
+[data-testid="stElementToolbar"] {display: none !important;} /* Esconde download/search das tabelas */
 
 /* Custom typography */
 h1 {

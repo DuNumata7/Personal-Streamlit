@@ -55,19 +55,22 @@ if st.session_state.aluno_logado is None:
 # --- AREA LOGADA ---
 else:
     # Definindo as paginas disponiveis para o aluno logado
-    pages = {
-        "Meu Painel": [
-            st.Page("src/pages/01_Minhas_Avaliacoes.py", title="Evolução e Avaliações", icon="📈"),
-            st.Page("src/pages/02_Meus_Treinos.py", title="Meus Treinos", icon="🏋️"),
-        ]
-    }
+    pages_list = [
+        st.Page("src/pages/01_Minhas_Avaliacoes.py", title="Evolução e Avaliações", icon="📈"),
+        st.Page("src/pages/02_Meus_Treinos.py", title="Meus Treinos", icon="🏋️")
+    ]
     
-    pg = st.navigation(pages)
+    # Esconde a navegação padrão do Streamlit para criarmos a nossa
+    pg = st.navigation(pages_list, position="hidden")
     
-    # Sidebar customizada para o aluno
+    # Sidebar customizada com a ordem exata solicitada
     with st.sidebar:
-        st.write(f"👋 Olá, **{st.session_state.aluno_logado['Nome']}**")
+        st.markdown(f"### 👋 Olá, {st.session_state.aluno_logado['Nome']}")
         st.write("---")
+        st.page_link(pages_list[0], label="Evolução e Avaliações", icon="📈")
+        st.page_link(pages_list[1], label="Meus Treinos", icon="🏋️")
+        st.write("---")
+        
         if st.button("Sair da Conta"):
             st.session_state.aluno_logado = None
             st.rerun()

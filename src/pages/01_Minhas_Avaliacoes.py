@@ -57,25 +57,26 @@ else:
                     plot_bgcolor="rgba(0,0,0,0)",
                     paper_bgcolor="rgba(0,0,0,0)",
                     font=dict(color="#ADB5BD"),
-                    margin=dict(l=10, r=10, t=40, b=10) # Reduz margens do gráfico para o celular
+                    margin=dict(l=10, r=10, t=40, b=10), # Reduz margens do gráfico para o celular
+                    dragmode=False # Desabilita zoom e arrastar
                 )
                 return fig
 
             if peso_col:
                 fig_peso = px.line(df_av, x="DATA", y=peso_col[0], title="Peso Corporal (kg)", markers=True)
-                st.plotly_chart(style_nmt_chart(fig_peso), use_container_width=True)
+                st.plotly_chart(style_nmt_chart(fig_peso), use_container_width=True, config={'displayModeBar': False})
                 
             if bf_col:
                 fig_bf = px.line(df_av, x="DATA", y=bf_col[0], title="Gordura Corporal (%)", markers=True)
-                st.plotly_chart(style_nmt_chart(fig_bf), use_container_width=True)
+                st.plotly_chart(style_nmt_chart(fig_bf), use_container_width=True, config={'displayModeBar': False})
                 
             if massa_magra_col:
                 fig_mm = px.line(df_av, x="DATA", y=massa_magra_col[0], title="Massa Livre de Gordura (%)", markers=True)
-                st.plotly_chart(style_nmt_chart(fig_mm), use_container_width=True)
+                st.plotly_chart(style_nmt_chart(fig_mm), use_container_width=True, config={'displayModeBar': False})
                 
             if cintura_col:
                 fig_cintura = px.line(df_av, x="DATA", y=cintura_col[0], title="Circunferencia da Cintura (cm)", markers=True)
-                st.plotly_chart(style_nmt_chart(fig_cintura), use_container_width=True)
+                st.plotly_chart(style_nmt_chart(fig_cintura), use_container_width=True, config={'displayModeBar': False})
                 
         st.divider()
         st.subheader("Historico Completo de Avaliacoes")
@@ -92,7 +93,7 @@ else:
             # Renomeia as colunas para serem as datas
             df_transposto.columns = datas_formatadas
             
-            # Exibe a tabela
-            st.dataframe(df_transposto, use_container_width=True)
+            # Exibe a tabela ESTATICA (embutida e sem rolagem interna)
+            st.table(df_transposto)
         else:
-            st.dataframe(df_av.T, use_container_width=True)
+            st.table(df_av.T)
