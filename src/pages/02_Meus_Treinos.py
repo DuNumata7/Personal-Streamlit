@@ -85,12 +85,25 @@ else:
                         st.markdown("<br>", unsafe_allow_html=True)
                         with st.container(border=True):
                             st.markdown("#### Salvar Progresso")
-                            st.write("Confirme as cargas e repetições ajustadas hoje.")
-                            if st.button(f"Salvar Edições da {sessao}", key=f"btn_{sessao}_{idx}"):
+                            
+                            # Checkbox de conclusão da sessão (Feedback Visual)
+                            treino_concluido = st.checkbox(f"✅ Marcar sessão '{sessao}' como concluída", key=f"chk_{sessao}_{idx}")
+                            
+                            if st.button(f"Salvar {sessao}", key=f"btn_{sessao}_{idx}"):
                                 mudancas = []
+                                volume_total = 0 # Para Gamificação
+                                
                                 for i in range(len(editado_df)):
                                     val_editado = editado_df.iloc[i].to_dict()
                                     val_original = df_mostrar.iloc[i].to_dict()
+                                    
+                                    # Calcula Volume (Carga x Reps) - ignora erros se o aluno digitar texto
+                                    try:
+                                        carga_val = float(val_editado.get("Carga", 0))
+                                        reps_val = float(val_editado.get("Reps", 0))
+                                        volume_total += carga_val * reps_val
+                                    except:
+                                        pass
                                     
                                     if val_editado != val_original:
                                         mudancas.append({
@@ -101,15 +114,32 @@ else:
                                             "Séries": val_editado.get("Séries", "")
                                         })
                                         
+                                # Registra o CHECK-IN da sessão mesmo se não houve edição de carga
+                                if treino_concluido:
+                                    mudancas.append({
+                                        "Sessão": sessao,
+                                        "Exercício": "[SESSÃO CONCLUÍDA]",
+                                        "Carga": "✅",
+                                        "Reps": "-",
+                                        "Séries": "-"
+                                    })
+                                        
                                 if mudancas:
-                                    with st.spinner("Enviando para o treinador..."):
-                                        sucesso = save_workout_feedback(sheet_id, mudancas)
-                                        if sucesso:
-                                            st.success("⚡ Alterações enviadas com sucesso! Seu treinador foi notificado.")
-                                            get_student_workouts.clear()
-                                        else:
-                                            st.error("Erro ao enviar alterações.")
+                                    with st.spinner("Registrando..."):
+                                        # Salva as mudanças e o check-in na planilha
+                                        save_workout_feedback(sheet_id, mudancas)
+                                        
+                                        st.success("⚡ Treino salvo com sucesso!")
+                                        
+                                        if treino_concluido and volume_total > 0:
+                                            st.balloons()
+                                            st.info(f"🏆 **Incrível!** Hoje você levantou um volume total aproximado de **{volume_total:,.0f} kg**!")
+                                        elif treino_concluido:
+                                            st.balloons()
+                                            st.info(f"🏆 **Incrível!** Mais um treino concluído com sucesso!")
+                                            
+                                        get_student_workouts.clear()
                                 else:
-                                    st.info("Nenhuma alteração detectada para salvar.")
+                                    st.warning("Marque o treino como concluído ou edite alguma carga para salvar.")
             else:
                 st.write("Nenhuma sessão de treino definida.")

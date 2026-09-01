@@ -1,15 +1,65 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
 import plotly.express as px
+import pandas as pd
+import urllib.parse
 from src.data.google_sheets import extract_sheet_id, get_student_assessments
+from datetime import datetime, timedelta
 
 aluno = st.session_state.aluno_logado
 
-st.title("📈 Minha Evolucao")
-st.markdown("Acompanhe o historico das suas avaliacoes fisicas.")
+st.title(f"Painel de {aluno['Nome'].split()[0]}")
+st.markdown("Acompanhe o histórico das suas avaliações físicas e constância de treinos.")
 
 link_planilha = aluno.get("Planilha_Individual", "")
 sheet_id = extract_sheet_id(link_planilha)
+
+# --- DASHBOARD GAMIFICAÇÃO (RÉGUA SEMANAL) ---
+try:
+    if sheet_id:
+        encoded_tab = urllib.parse.quote("Feedback_Treinos")
+        url_feedback = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={encoded_tab}"
+        df_feed = pd.read_csv(url_feedback)
+        
+        # Extrai os checkins (linhas onde Exercício é [SESSÃO CONCLUÍDA])
+        if not df_feed.empty and "Exercício" in df_feed.columns and "Data Envio" in df_feed.columns:
+            df_checks = df_feed[df_feed["Exercício"] == "[SESSÃO CONCLUÍDA]"].copy()
+            df_checks["Data"] = pd.to_datetime(df_checks["Data Envio"], format="%d/%m/%Y %H:%M", errors="coerce").dt.date
+            datas_treinadas = set(df_checks["Data"].dropna())
+            
+            hoje = datetime.now().date()
+            dias_semana = ["S", "T", "Q", "Q", "S", "S", "D"]
+            
+            st.markdown("### 🔥 Sua Constância nesta Semana")
+            
+            # Início da semana (Segunda-feira)
+            inicio_semana = hoje - timedelta(days=hoje.weekday())
+            
+            cols = st.columns(7)
+            for i in range(7):
+                dia_atual = inicio_semana + timedelta(days=i)
+                treinou_neste_dia = dia_atual in datas_treinadas
+                
+                # Escolhe as cores (Ciano se treinou, Grafite escuro se nao)
+                bg_color = "#00B4D8" if treinou_neste_dia else "#2b3035"
+                text_color = "#212529" if treinou_neste_dia else "#ADB5BD"
+                icone = "✅" if treinou_neste_dia else dias_semana[i]
+                
+                with cols[i]:
+                    # Desenha o 'quadradinho' do dia
+                    st.markdown(f"""
+                    <div style="background-color: {bg_color}; color: {text_color}; 
+                                border-radius: 8px; padding: 10px 0; text-align: center; 
+                                font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                        {icone}
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+            st.markdown("<br>", unsafe_allow_html=True)
+except Exception as e:
+    pass # Falha silenciosa se a aba ainda nao existir
+
+st.divider()
 
 if not sheet_id:
     st.error("Nenhuma planilha vinculada ao seu perfil. Fale com seu treinador.")

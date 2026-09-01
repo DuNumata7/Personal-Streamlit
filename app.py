@@ -57,7 +57,8 @@ else:
     # Definindo as paginas disponiveis para o aluno logado
     pages_list = [
         st.Page("src/pages/01_Minhas_Avaliacoes.py", title="Evolução e Avaliações", icon="📈"),
-        st.Page("src/pages/02_Meus_Treinos.py", title="Meus Treinos", icon="🏋️")
+        st.Page("src/pages/02_Meus_Treinos.py", title="Meus Treinos", icon="🏋️"),
+        st.Page("src/pages/03_Progresso_Cargas.py", title="Progresso de Carga", icon="🔥")
     ]
     
     # Esconde a navegação padrão do Streamlit para criarmos a nossa
@@ -69,6 +70,7 @@ else:
         st.write("---")
         st.page_link(pages_list[0], label="Evolução e Avaliações", icon="📈")
         st.page_link(pages_list[1], label="Meus Treinos", icon="🏋️")
+        st.page_link(pages_list[2], label="Progresso de Carga", icon="🔥")
         st.write("---")
         
         if st.button("Sair da Conta"):
