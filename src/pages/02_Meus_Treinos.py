@@ -50,21 +50,30 @@ else:
             sessoes = df_filtrado[col_sessao].dropna().unique().tolist()
             
             if sessoes:
-                tabs = st.tabs([str(s) for s in sessoes])
+                st.write("Dê dois cliques nas tabelas abaixo para editar sua carga ou repetições de hoje:")
                 
-                for idx, sessao in enumerate(sessoes):
-                    with tabs[idx]:
-                        st.write("Dê dois cliques nas células para editar sua carga ou repetições de hoje:")
+                # Criando um layout de Grade (Grid)
+                # A cada iteracao, criamos linhas e populamos as 3 colunas
+                for index_linha in range(0, len(sessoes), 3):
+                    cols = st.columns(3) # 3 colunas
+                    
+                    # Popula as 3 colunas (ou menos, se sobrar menos que 3 sessoes no final)
+                    for idx_col, idx_sessao in enumerate(range(index_linha, min(index_linha + 3, len(sessoes)))):
+                        sessao = sessoes[idx_sessao]
                         
-                        df_sessao = df_filtrado[df_filtrado[col_sessao] == sessao]
-                        
-                        # Preparar tabela para o editor
-                        cols_mostrar = [col_exercicio]
-                        if col_series: cols_mostrar.append(col_series)
-                        if col_reps: cols_mostrar.append(col_reps)
-                        if col_carga: cols_mostrar.append(col_carga)
-                        
-                        df_mostrar = df_sessao[cols_mostrar].copy()
+                        with cols[idx_col]:
+                            # Container customizado (Visual de Card)
+                            with st.container(border=True):
+                                st.markdown(f"#### ⚡ {sessao}")
+                                df_sessao = df_filtrado[df_filtrado[col_sessao] == sessao]
+                                
+                                # Preparar tabela para o editor
+                                cols_mostrar = [col_exercicio]
+                                if col_series: cols_mostrar.append(col_series)
+                                if col_reps: cols_mostrar.append(col_reps)
+                                if col_carga: cols_mostrar.append(col_carga)
+                                
+                                df_mostrar = df_sessao[cols_mostrar].copy()
                         
                         renames = {}
                         if col_exercicio: renames[col_exercicio] = "Exercício"
@@ -81,15 +90,13 @@ else:
                             disabled=["Exercício"] # Impede que o aluno mude o nome do exercicio
                         )
                         
-                        # Botao de salvar em um container para destaque
-                        st.markdown("<br>", unsafe_allow_html=True)
-                        with st.container(border=True):
-                            st.markdown("#### Salvar Progresso")
+                            # Botao de salvar em um container para destaque
+                            st.markdown("<br>", unsafe_allow_html=True)
                             
                             # Checkbox de conclusão da sessão (Feedback Visual)
-                            treino_concluido = st.checkbox(f"✅ Marcar sessão '{sessao}' como concluída", key=f"chk_{sessao}_{idx}")
+                            treino_concluido = st.checkbox(f"✅ Marcar sessão concluída", key=f"chk_{sessao}_{idx_sessao}")
                             
-                            if st.button(f"Salvar {sessao}", key=f"btn_{sessao}_{idx}"):
+                            if st.button(f"Salvar", key=f"btn_{sessao}_{idx_sessao}", use_container_width=True):
                                 mudancas = []
                                 volume_total = 0 # Para Gamificação
                                 
