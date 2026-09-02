@@ -74,79 +74,79 @@ else:
                                 if col_carga: cols_mostrar.append(col_carga)
                                 
                                 df_mostrar = df_sessao[cols_mostrar].copy()
-                        
-                        renames = {}
-                        if col_exercicio: renames[col_exercicio] = "Exercício"
-                        if col_series: renames[col_series] = "Séries"
-                        if col_reps: renames[col_reps] = "Reps"
-                        if col_carga: renames[col_carga] = "Carga"
-                        df_mostrar = df_mostrar.rename(columns=renames)
-                        
-                        # Data Editor interativo
-                        editado_df = st.data_editor(
-                            df_mostrar,
-                            width="stretch",
-                            hide_index=True,
-                            disabled=["Exercício"] # Impede que o aluno mude o nome do exercicio
-                        )
-                        
-                            # Botao de salvar em um container para destaque
-                            st.markdown("<br>", unsafe_allow_html=True)
-                            
-                            # Checkbox de conclusão da sessão (Feedback Visual)
-                            treino_concluido = st.checkbox(f"✅ Marcar sessão concluída", key=f"chk_{sessao}_{idx_sessao}")
-                            
-                            if st.button(f"Salvar", key=f"btn_{sessao}_{idx_sessao}", use_container_width=True):
-                                mudancas = []
-                                volume_total = 0 # Para Gamificação
                                 
-                                for i in range(len(editado_df)):
-                                    val_editado = editado_df.iloc[i].to_dict()
-                                    val_original = df_mostrar.iloc[i].to_dict()
+                                renames = {}
+                                if col_exercicio: renames[col_exercicio] = "Exercício"
+                                if col_series: renames[col_series] = "Séries"
+                                if col_reps: renames[col_reps] = "Reps"
+                                if col_carga: renames[col_carga] = "Carga"
+                                df_mostrar = df_mostrar.rename(columns=renames)
+                                
+                                # Data Editor interativo
+                                editado_df = st.data_editor(
+                                    df_mostrar,
+                                    width="stretch",
+                                    hide_index=True,
+                                    disabled=["Exercício"] # Impede que o aluno mude o nome do exercicio
+                                )
+                                
+                                # Botao de salvar em um container para destaque
+                                st.markdown("<br>", unsafe_allow_html=True)
+                                
+                                # Checkbox de conclusão da sessão (Feedback Visual)
+                                treino_concluido = st.checkbox(f"✅ Marcar sessão concluída", key=f"chk_{sessao}_{idx_sessao}")
+                                
+                                if st.button(f"Salvar", key=f"btn_{sessao}_{idx_sessao}", use_container_width=True):
+                                    mudancas = []
+                                    volume_total = 0 # Para Gamificação
                                     
-                                    # Calcula Volume (Carga x Reps) - ignora erros se o aluno digitar texto
-                                    try:
-                                        carga_val = float(val_editado.get("Carga", 0))
-                                        reps_val = float(val_editado.get("Reps", 0))
-                                        volume_total += carga_val * reps_val
-                                    except:
-                                        pass
-                                    
-                                    if val_editado != val_original:
+                                    for i in range(len(editado_df)):
+                                        val_editado = editado_df.iloc[i].to_dict()
+                                        val_original = df_mostrar.iloc[i].to_dict()
+                                        
+                                        # Calcula Volume (Carga x Reps) - ignora erros se o aluno digitar texto
+                                        try:
+                                            carga_val = float(val_editado.get("Carga", 0))
+                                            reps_val = float(val_editado.get("Reps", 0))
+                                            volume_total += carga_val * reps_val
+                                        except:
+                                            pass
+                                        
+                                        if val_editado != val_original:
+                                            mudancas.append({
+                                                "Sessão": sessao,
+                                                "Exercício": val_editado.get("Exercício", ""),
+                                                "Carga": val_editado.get("Carga", ""),
+                                                "Reps": val_editado.get("Reps", ""),
+                                                "Séries": val_editado.get("Séries", "")
+                                            })
+                                            
+                                    # Registra o CHECK-IN da sessão mesmo se não houve edição de carga
+                                    if treino_concluido:
                                         mudancas.append({
                                             "Sessão": sessao,
-                                            "Exercício": val_editado.get("Exercício", ""),
-                                            "Carga": val_editado.get("Carga", ""),
-                                            "Reps": val_editado.get("Reps", ""),
-                                            "Séries": val_editado.get("Séries", "")
+                                            "Exercício": "[SESSÃO CONCLUÍDA]",
+                                            "Carga": "✅",
+                                            "Reps": "-",
+                                            "Séries": "-"
                                         })
-                                        
-                                # Registra o CHECK-IN da sessão mesmo se não houve edição de carga
-                                if treino_concluido:
-                                    mudancas.append({
-                                        "Sessão": sessao,
-                                        "Exercício": "[SESSÃO CONCLUÍDA]",
-                                        "Carga": "✅",
-                                        "Reps": "-",
-                                        "Séries": "-"
-                                    })
-                                        
-                                if mudancas:
-                                    with st.spinner("Registrando..."):
-                                        # Salva as mudanças e o check-in na planilha
-                                        save_workout_feedback(sheet_id, mudancas)
-                                        
-                                        st.success("⚡ Treino salvo com sucesso!")
-                                        
-                                        if treino_concluido and volume_total > 0:
-                                            st.balloons()
-                                            st.info(f"🏆 **Incrível!** Hoje você levantou um volume total aproximado de **{volume_total:,.0f} kg**!")
-                                        elif treino_concluido:
-                                            st.balloons()
-                                            st.info(f"🏆 **Incrível!** Mais um treino concluído com sucesso!")
                                             
-                                        get_student_workouts.clear()
-                                else:
-                                    st.warning("Marque o treino como concluído ou edite alguma carga para salvar.")
+                                    if mudancas:
+                                        with st.spinner("Registrando..."):
+                                            # Salva as mudanças e o check-in na planilha
+                                            save_workout_feedback(sheet_id, mudancas)
+                                            
+                                            st.success("⚡ Treino salvo com sucesso!")
+                                            
+                                            if treino_concluido and volume_total > 0:
+                                                st.balloons()
+                                                st.info(f"🏆 **Incrível!** Hoje você levantou um volume total aproximado de **{volume_total:,.0f} kg**!")
+                                            elif treino_concluido:
+                                                st.balloons()
+                                                st.info(f"🏆 **Incrível!** Mais um treino concluído com sucesso!")
+                                                
+                                            get_student_workouts.clear()
+                                    else:
+                                        st.warning("Marque o treino como concluído ou edite alguma carga para salvar.")
             else:
                 st.write("Nenhuma sessão de treino definida.")
